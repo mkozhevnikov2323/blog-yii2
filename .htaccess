@@ -1,7 +1,7 @@
-DocumentRoot "path/to/basic/web"
-<Directory "path/to/basic/web">
-    RewriteEngine on
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule . index.php
-</Directory>
+#DocumentRoot "path/to/basic/web"
+#<Directory "path/to/basic/web">
+#    RewriteEngine on
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteCond %{REQUEST_FILENAME} !-f
+#    RewriteRule . index.php
+#</Directory>
