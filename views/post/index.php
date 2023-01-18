@@ -1,25 +1,50 @@
 <?php
-use yii\helpers\Html;
-use yii\widgets\LinkPager;
-?>
-    <h1>Posts</h1>
-    <ul>
-        <?php if (isset($posts)) {
-            foreach ($posts as $post): ?>
-                <li>
-                    <?= Html::encode("{$post->id} ({$post->title})") ?>:
-                    <?= $post->content ?>
-                </li>
-            <?php endforeach;
-        } ?>
-    </ul>
 
-<?= /** @var TYPE_NAME $pagination */
-LinkPager::widget([
-    'pagination' => $pagination,
-    'maxButtonCount' => 5,
-    'activePageCssClass' => 'active',
-    'linkContainerOptions' => ['class' => 'page-item'],
-    'linkOptions' => ['class' => 'page-link'],
-    'disabledListItemSubTagOptions' => ['tag' => 'a', 'class' => 'page-link'],
-]) ?>
+use app\models\Post;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+
+/** @var yii\web\View $this */
+/** @var app\models\PostSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+
+$this->title = 'Posts';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="post-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'title',
+            'content',
+            'tags',
+            'status',
+            //'create_time',
+            //'update_time',
+            //'author_id',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Post $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+
+</div>
