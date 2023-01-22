@@ -33,7 +33,7 @@ class Post extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['title', 'content', 'status', 'create_time', 'update_time', 'author_id'], 'required'],
@@ -42,6 +42,7 @@ class Post extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 100],
             [['content'], 'string', 'max' => 1000],
             [['tags'], 'string', 'max' => 255],
+            [['tags'], 'match', 'pattern' => '/^[\w\s,]+$/', 'message'=>'В тегах можно использовать только буквы.'],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => PostStatus::class, 'targetAttribute' => ['status' => 'id']],
         ];

@@ -4,21 +4,21 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Post;
+use app\models\Status;
 
 /**
- * PostSearch represents the model behind the search form of `app\models\Post`.
+ * PostStatus represents the model behind the search form of `app\models\Status`.
  */
-class PostSearch extends Post
+class PostStatus extends Status
 {
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            [['id', 'status', 'author_id'], 'integer'],
-            [['title', 'content', 'tags', 'create_time', 'update_time'], 'safe'],
+            [['id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class PostSearch extends Post
      */
     public function search($params)
     {
-        $query = Post::find();
+        $query = Status::find();
 
         // add conditions that should always apply here
 
@@ -59,15 +59,9 @@ class PostSearch extends Post
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'status' => $this->status,
-            'create_time' => $this->create_time,
-            'update_time' => $this->update_time,
-            'author_id' => $this->author_id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'tags', $this->tags]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }
